@@ -19,6 +19,7 @@ model Application {
   jobUrl      String?
   status      String    @default("wishlist")
   source      String    @default("other")
+  coverLetter Boolean   @default(false)
   appliedDate DateTime?
   notes       String?
   createdAt   DateTime  @default(now())

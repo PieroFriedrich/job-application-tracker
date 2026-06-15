@@ -39,6 +39,7 @@ export type Application = {
   jobUrl: string | null;
   status: Status;
   source: Source;
+  coverLetter: boolean;
   appliedDate: string | null;
   notes: string | null;
   createdAt: string;

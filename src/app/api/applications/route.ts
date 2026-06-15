@@ -18,6 +18,7 @@ export async function POST(request: NextRequest) {
       jobUrl: body.jobUrl || null,
       status: body.status || "wishlist",
       source: body.source || "other",
+      coverLetter: Boolean(body.coverLetter),
       appliedDate: body.appliedDate ? new Date(body.appliedDate) : null,
       notes: body.notes || null,
     },

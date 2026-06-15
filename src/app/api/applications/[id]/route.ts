@@ -28,6 +28,7 @@ export async function PATCH(
   if (body.jobUrl !== undefined) data.jobUrl = body.jobUrl || null;
   if (body.status !== undefined) data.status = body.status;
   if (body.source !== undefined) data.source = body.source;
+  if (body.coverLetter !== undefined) data.coverLetter = Boolean(body.coverLetter);
   if (body.appliedDate !== undefined) {
     data.appliedDate = body.appliedDate ? new Date(body.appliedDate) : null;
   }
