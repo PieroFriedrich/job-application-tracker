@@ -27,6 +27,7 @@ export async function PATCH(
   if (body.role !== undefined) data.role = body.role;
   if (body.jobUrl !== undefined) data.jobUrl = body.jobUrl || null;
   if (body.status !== undefined) data.status = body.status;
+  if (body.stage !== undefined) data.stage = body.stage || null;
   if (body.source !== undefined) data.source = body.source;
   if (body.coverLetter !== undefined) data.coverLetter = Boolean(body.coverLetter);
   if (body.appliedDate !== undefined) {

@@ -1,4 +1,4 @@
-import { STATUS_LABELS, Status } from "@/lib/types";
+import { STAGE_LABELS, STATUS_LABELS, Stage, Status } from "@/lib/types";
 
 const STATUS_STYLES: Record<Status, string> = {
   wishlist: "bg-gray-100 text-gray-700",
@@ -14,6 +14,14 @@ export function StatusBadge({ status }: { status: Status }) {
       className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${STATUS_STYLES[status]}`}
     >
       {STATUS_LABELS[status]}
+    </span>
+  );
+}
+
+export function StageBadge({ stage }: { stage: Stage }) {
+  return (
+    <span className="inline-flex items-center rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-medium text-gray-600">
+      {STAGE_LABELS[stage]}
     </span>
   );
 }

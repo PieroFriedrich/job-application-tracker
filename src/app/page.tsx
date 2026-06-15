@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { DeleteButton } from "@/components/DeleteButton";
-import { StatusBadge } from "@/components/StatusBadge";
+import { StageBadge, StatusBadge } from "@/components/StatusBadge";
 import { prisma } from "@/lib/prisma";
-import { STATUS_LABELS, STATUSES, Status } from "@/lib/types";
+import { STATUS_LABELS, STATUSES, Stage, Status } from "@/lib/types";
 
 type SearchParams = {
   status?: string;
@@ -155,7 +155,10 @@ export default async function HomePage({
                   </td>
                   <td className="px-4 py-2">{app.role}</td>
                   <td className="px-4 py-2">
-                    <StatusBadge status={app.status as Status} />
+                    <div className="flex flex-wrap gap-1">
+                      <StatusBadge status={app.status as Status} />
+                      {app.stage && <StageBadge stage={app.stage as Stage} />}
+                    </div>
                   </td>
                   <td className="px-4 py-2 text-gray-500">
                     {app.appliedDate

@@ -16,6 +16,30 @@ export const STATUS_LABELS: Record<Status, string> = {
   rejected: "Rejected",
 };
 
+export const STAGES = [
+  "applied",
+  "oa",
+  "hr_screen",
+  "technical_interview",
+  "round_2",
+  "round_3",
+  "onsite",
+  "offer",
+] as const;
+
+export type Stage = (typeof STAGES)[number];
+
+export const STAGE_LABELS: Record<Stage, string> = {
+  applied: "Applied",
+  oa: "Online Assessment (OA)",
+  hr_screen: "HR / Recruiter Screen",
+  technical_interview: "Technical Interview",
+  round_2: "Round 2",
+  round_3: "Round 3",
+  onsite: "Onsite / Final Round",
+  offer: "Offer",
+};
+
 export const SOURCES = [
   "linkedin",
   "indeed",
@@ -38,6 +62,7 @@ export type Application = {
   role: string;
   jobUrl: string | null;
   status: Status;
+  stage: Stage | null;
   source: Source;
   coverLetter: boolean;
   appliedDate: string | null;

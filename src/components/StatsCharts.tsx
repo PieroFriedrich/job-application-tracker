@@ -10,7 +10,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { STATUS_LABELS, STATUSES, Status } from "@/lib/types";
+import { STAGE_LABELS, STATUS_LABELS, STATUSES, Stage, Status } from "@/lib/types";
 
 const STATUS_COLORS: Record<Status, string> = {
   wishlist: "#9ca3af",
@@ -24,9 +24,10 @@ const CHART_STATUSES = STATUSES.filter((status) => status !== "wishlist");
 
 type StatsChartsProps = {
   statusData: ({ month: string } & Record<Exclude<Status, "wishlist">, number>)[];
+  stageData: { stage: Stage; count: number }[];
 };
 
-export function StatsCharts({ statusData }: StatsChartsProps) {
+export function StatsCharts({ statusData, stageData }: StatsChartsProps) {
   return (
     <div className="flex flex-col gap-6">
       <div className="rounded-md border border-gray-200 bg-white p-4">
@@ -49,6 +50,29 @@ export function StatsCharts({ statusData }: StatsChartsProps) {
                 fill={STATUS_COLORS[status]}
               />
             ))}
+          </BarChart>
+        </ResponsiveContainer>
+      </div>
+
+      <div className="rounded-md border border-gray-200 bg-white p-4">
+        <h2 className="mb-4 text-sm font-medium text-gray-700">
+          Applications by furthest stage reached
+        </h2>
+        <ResponsiveContainer width="100%" height={300}>
+          <BarChart data={stageData} layout="vertical">
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis type="number" allowDecimals={false} />
+            <YAxis
+              type="category"
+              dataKey="stage"
+              tickFormatter={(stage: Stage) => STAGE_LABELS[stage]}
+              width={150}
+            />
+            <Tooltip
+              formatter={(value) => [value, "Applications"]}
+              labelFormatter={(stage) => STAGE_LABELS[stage as Stage]}
+            />
+            <Bar dataKey="count" name="Applications" fill={STATUS_COLORS.applied} />
           </BarChart>
         </ResponsiveContainer>
       </div>

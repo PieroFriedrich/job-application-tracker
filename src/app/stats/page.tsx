@@ -1,6 +1,6 @@
 import { StatsCharts } from "@/components/StatsCharts";
 import { prisma } from "@/lib/prisma";
-import { STATUS_LABELS, STATUSES, Status } from "@/lib/types";
+import { STAGES, STATUS_LABELS, STATUSES, Status } from "@/lib/types";
 
 function monthKey(date: Date) {
   return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}`;
@@ -36,7 +36,7 @@ export default async function StatsPage({
           : {}),
       },
     },
-    select: { status: true, appliedDate: true },
+    select: { status: true, stage: true, appliedDate: true },
     orderBy: { appliedDate: "asc" },
   });
 
@@ -47,6 +47,11 @@ export default async function StatsPage({
   const statusTotals = STATUSES.filter((s) => s !== "wishlist").map((status) => ({
     status,
     count: applications.filter((a) => a.status === status).length,
+  }));
+
+  const stageData = STAGES.map((stage) => ({
+    stage,
+    count: applications.filter((a) => a.stage === stage).length,
   }));
 
   const statusData = months.map((month) => {
@@ -107,7 +112,7 @@ export default async function StatsPage({
           No applications with an applied date yet.
         </p>
       ) : (
-        <StatsCharts statusData={statusData} />
+        <StatsCharts statusData={statusData} stageData={stageData} />
       )}
     </div>
   );
