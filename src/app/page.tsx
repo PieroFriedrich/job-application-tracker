@@ -7,6 +7,7 @@ import { STATUS_LABELS, STATUSES, Status } from "@/lib/types";
 type SearchParams = {
   status?: string;
   sort?: string;
+  year?: string;
 };
 
 const SORT_OPTIONS: Record<string, { label: string; orderBy: Record<string, "asc" | "desc"> }> = {
@@ -20,13 +21,33 @@ export default async function HomePage({
 }: {
   searchParams: Promise<SearchParams>;
 }) {
-  const { status, sort } = await searchParams;
+  const { status, sort, year } = await searchParams;
 
   const sortKey = sort && SORT_OPTIONS[sort] ? sort : "newest";
   const isValidStatus = status && (STATUSES as readonly string[]).includes(status);
 
+  const appliedDates = await prisma.application.findMany({
+    where: { appliedDate: { not: null } },
+    select: { appliedDate: true },
+  });
+  const years = Array.from(
+    new Set(appliedDates.map((a) => new Date(a.appliedDate!).getFullYear()))
+  ).sort((a, b) => b - a);
+
+  const isValidYear = !!year && /^\d{4}$/.test(year) && years.includes(Number(year));
+
   const applications = await prisma.application.findMany({
-    where: isValidStatus ? { status } : undefined,
+    where: {
+      ...(isValidStatus ? { status } : {}),
+      ...(isValidYear
+        ? {
+            appliedDate: {
+              gte: new Date(`${year}-01-01T00:00:00.000Z`),
+              lt: new Date(`${Number(year) + 1}-01-01T00:00:00.000Z`),
+            },
+          }
+        : {}),
+    },
     orderBy: SORT_OPTIONS[sortKey].orderBy,
   });
 
@@ -51,6 +72,22 @@ export default async function HomePage({
             {STATUSES.map((s: Status) => (
               <option key={s} value={s}>
                 {STATUS_LABELS[s]}
+              </option>
+            ))}
+          </select>
+        </label>
+
+        <label className="flex items-center gap-2">
+          Year
+          <select
+            name="year"
+            defaultValue={isValidYear ? year : ""}
+            className="rounded-md border border-gray-300 px-2 py-1"
+          >
+            <option value="">All</option>
+            {years.map((y) => (
+              <option key={y} value={y}>
+                {y}
               </option>
             ))}
           </select>
