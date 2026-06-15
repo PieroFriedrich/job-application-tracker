@@ -2,7 +2,15 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { Application, STATUS_LABELS, STATUSES, Status } from "@/lib/types";
+import {
+  Application,
+  SOURCE_LABELS,
+  SOURCES,
+  STATUS_LABELS,
+  STATUSES,
+  Source,
+  Status,
+} from "@/lib/types";
 
 type Props = {
   application?: Application;
@@ -29,6 +37,7 @@ export function ApplicationForm({ application }: Props) {
       role: formData.get("role"),
       jobUrl: formData.get("jobUrl"),
       status: formData.get("status"),
+      source: formData.get("source"),
       appliedDate: formData.get("appliedDate"),
       notes: formData.get("notes"),
     };
@@ -112,6 +121,24 @@ export function ApplicationForm({ application }: Props) {
             {STATUSES.map((status: Status) => (
               <option key={status} value={status}>
                 {STATUS_LABELS[status]}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div>
+          <label htmlFor="source" className="block text-sm font-medium">
+            Source
+          </label>
+          <select
+            id="source"
+            name="source"
+            defaultValue={application?.source ?? "other"}
+            className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+          >
+            {SOURCES.map((source: Source) => (
+              <option key={source} value={source}>
+                {SOURCE_LABELS[source]}
               </option>
             ))}
           </select>

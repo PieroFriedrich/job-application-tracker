@@ -17,6 +17,7 @@ export async function POST(request: NextRequest) {
       role: body.role,
       jobUrl: body.jobUrl || null,
       status: body.status || "wishlist",
+      source: body.source || "other",
       appliedDate: body.appliedDate ? new Date(body.appliedDate) : null,
       notes: body.notes || null,
     },
