@@ -1,6 +1,6 @@
 import { StatsCharts } from "@/components/StatsCharts";
 import { prisma } from "@/lib/prisma";
-import { STATUSES, Status } from "@/lib/types";
+import { STATUS_LABELS, STATUSES, Status } from "@/lib/types";
 
 function monthKey(date: Date) {
   return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}`;
@@ -44,6 +44,11 @@ export default async function StatsPage({
     new Set(applications.map((a) => monthKey(new Date(a.appliedDate!))))
   ).sort();
 
+  const statusTotals = STATUSES.filter((s) => s !== "wishlist").map((status) => ({
+    status,
+    count: applications.filter((a) => a.status === status).length,
+  }));
+
   const statusData = months.map((month) => {
     const entry: Record<string, string | number> = { month };
     for (const status of STATUSES.filter((s) => s !== "wishlist")) {
@@ -84,6 +89,18 @@ export default async function StatsPage({
           Apply
         </button>
       </form>
+
+      <div className="mb-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
+        {statusTotals.map(({ status, count }) => (
+          <div
+            key={status}
+            className="rounded-md border border-gray-200 bg-white p-4 text-center"
+          >
+            <p className="text-2xl font-semibold">{count}</p>
+            <p className="text-sm text-gray-500">{STATUS_LABELS[status]}</p>
+          </div>
+        ))}
+      </div>
 
       {months.length === 0 ? (
         <p className="rounded-md border border-dashed border-gray-300 p-8 text-center text-sm text-gray-500">
