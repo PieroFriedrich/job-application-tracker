@@ -13,8 +13,8 @@ import {
 } from "@dnd-kit/core";
 import Link from "next/link";
 import { useState } from "react";
-import { StatusBadge } from "@/components/StatusBadge";
-import { Application, STATUS_LABELS, STATUSES, Status } from "@/lib/types";
+import { StageBadge, StatusBadge } from "@/components/StatusBadge";
+import { Application, STAGES, Stage, Status } from "@/lib/types";
 
 function ApplicationCard({ application }: { application: Application }) {
   const { attributes, listeners, setNodeRef, transform, isDragging } =
@@ -44,24 +44,27 @@ function ApplicationCard({ application }: { application: Application }) {
           Applied {new Date(application.appliedDate).toLocaleDateString()}
         </p>
       )}
-      <Link
-        href={`/applications/${application.id}/edit`}
-        className="mt-2 inline-block text-xs font-medium text-blue-600 hover:underline"
-      >
-        Edit
-      </Link>
+      <div className="mt-2 flex items-center gap-2">
+        <StatusBadge status={application.status as Status} />
+        <Link
+          href={`/applications/${application.id}/edit`}
+          className="text-xs font-medium text-blue-600 hover:underline"
+        >
+          Edit
+        </Link>
+      </div>
     </div>
   );
 }
 
 function Column({
-  status,
+  stage,
   applications,
 }: {
-  status: Status;
+  stage: Stage;
   applications: Application[];
 }) {
-  const { setNodeRef, isOver } = useDroppable({ id: status });
+  const { setNodeRef, isOver } = useDroppable({ id: stage });
 
   return (
     <div
@@ -71,7 +74,7 @@ function Column({
       }`}
     >
       <div className="flex items-center justify-between px-1">
-        <StatusBadge status={status} />
+        <StageBadge stage={stage} />
         <span className="text-xs text-gray-400">{applications.length}</span>
       </div>
       {applications.map((app) => (
@@ -99,19 +102,19 @@ export function Board({ applications }: { applications: Application[] }) {
     const { active, over } = event;
     if (!over) return;
 
-    const newStatus = over.id as Status;
+    const newStage = over.id as Stage;
     const id = String(active.id);
     const current = items.find((app) => app.id === id);
-    if (!current || current.status === newStatus) return;
+    if (!current || current.stage === newStage) return;
 
     setItems((prev) =>
-      prev.map((app) => (app.id === id ? { ...app, status: newStatus } : app)),
+      prev.map((app) => (app.id === id ? { ...app, stage: newStage } : app)),
     );
 
     await fetch(`/api/applications/${id}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ status: newStatus }),
+      body: JSON.stringify({ stage: newStage }),
     });
   }
 
@@ -124,11 +127,11 @@ export function Board({ applications }: { applications: Application[] }) {
       onDragEnd={handleDragEnd}
     >
       <div className="flex gap-4 overflow-x-auto pb-4">
-        {STATUSES.map((status) => (
+        {STAGES.map((stage) => (
           <Column
-            key={status}
-            status={status}
-            applications={items.filter((app) => app.status === status)}
+            key={stage}
+            stage={stage}
+            applications={items.filter((app) => app.stage === stage)}
           />
         ))}
       </div>

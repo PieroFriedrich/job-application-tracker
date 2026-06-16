@@ -17,8 +17,8 @@ model Application {
   company     String
   role        String
   jobUrl      String?
-  status      String    @default("wishlist")
-  stage       String?
+  status      String    @default("pending")
+  stage       String    @default("none")
   source      String    @default("other")
   coverLetter Boolean   @default(false)
   appliedDate DateTime?

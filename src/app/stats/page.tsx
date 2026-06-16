@@ -1,6 +1,6 @@
 import { StatsCharts } from "@/components/StatsCharts";
 import { prisma } from "@/lib/prisma";
-import { STAGES, STATUS_LABELS, STATUSES, Status } from "@/lib/types";
+import { STAGES, STATUS_LABELS, STATUSES, Stage, Status } from "@/lib/types";
 
 function monthKey(date: Date) {
   return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}`;
@@ -14,7 +14,7 @@ export default async function StatsPage({
   const { year } = await searchParams;
 
   const appliedDates = await prisma.application.findMany({
-    where: { appliedDate: { not: null }, status: { not: "wishlist" } },
+    where: { appliedDate: { not: null } },
     select: { appliedDate: true },
   });
   const years = Array.from(
@@ -25,7 +25,6 @@ export default async function StatsPage({
 
   const applications = await prisma.application.findMany({
     where: {
-      status: { not: "wishlist" },
       appliedDate: {
         not: null,
         ...(isValidYear
@@ -44,7 +43,7 @@ export default async function StatsPage({
     new Set(applications.map((a) => monthKey(new Date(a.appliedDate!))))
   ).sort();
 
-  const statusTotals = STATUSES.filter((s) => s !== "wishlist").map((status) => ({
+  const statusTotals = STATUSES.map((status) => ({
     status,
     count: applications.filter((a) => a.status === status).length,
   }));
@@ -56,12 +55,12 @@ export default async function StatsPage({
 
   const statusData = months.map((month) => {
     const entry: Record<string, string | number> = { month };
-    for (const status of STATUSES.filter((s) => s !== "wishlist")) {
+    for (const status of STATUSES) {
       entry[status] = applications.filter(
         (a) => monthKey(new Date(a.appliedDate!)) === month && a.status === status
       ).length;
     }
-    return entry as { month: string } & Record<Exclude<Status, "wishlist">, number>;
+    return entry as { month: string } & Record<Status, number>;
   });
 
   return (
@@ -95,7 +94,7 @@ export default async function StatsPage({
         </button>
       </form>
 
-      <div className="mb-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
+      <div className="mb-6 grid grid-cols-3 gap-3">
         {statusTotals.map(({ status, count }) => (
           <div
             key={status}

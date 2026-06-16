@@ -131,6 +131,7 @@ export default async function HomePage({
               <tr>
                 <th className="px-4 py-2 text-left font-medium">Company</th>
                 <th className="px-4 py-2 text-left font-medium">Role</th>
+                <th className="px-4 py-2 text-left font-medium">Stage</th>
                 <th className="px-4 py-2 text-left font-medium">Status</th>
                 <th className="px-4 py-2 text-left font-medium">Applied</th>
                 <th className="px-4 py-2 text-right font-medium">Actions</th>
@@ -155,10 +156,10 @@ export default async function HomePage({
                   </td>
                   <td className="px-4 py-2">{app.role}</td>
                   <td className="px-4 py-2">
-                    <div className="flex flex-wrap gap-1">
-                      <StatusBadge status={app.status as Status} />
-                      {app.stage && <StageBadge stage={app.stage as Stage} />}
-                    </div>
+                    <StageBadge stage={app.stage as Stage} />
+                  </td>
+                  <td className="px-4 py-2">
+                    <StatusBadge status={app.status as Status} />
                   </td>
                   <td className="px-4 py-2 text-gray-500">
                     {app.appliedDate

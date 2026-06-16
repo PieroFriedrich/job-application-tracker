@@ -1,28 +1,26 @@
 export const STATUSES = [
-  "wishlist",
-  "applied",
-  "interview",
-  "offer",
-  "rejected",
+  "pending",
+  "active",
+  "inactive",
 ] as const;
 
 export type Status = (typeof STATUSES)[number];
 
 export const STATUS_LABELS: Record<Status, string> = {
-  wishlist: "Wishlist",
-  applied: "Applied",
-  interview: "Interview",
-  offer: "Offer",
-  rejected: "Rejected",
+  pending: "Pending",
+  active: "Active / Applied",
+  inactive: "Inactive / Rejected",
 };
 
 export const STAGES = [
-  "applied",
+  "none",
+  "wishlist",
   "oa",
-  "hr_screen",
-  "technical_interview",
+  "hr_interview",
   "round_2",
   "round_3",
+  "round_4",
+  "round_5",
   "onsite",
   "offer",
 ] as const;
@@ -30,13 +28,15 @@ export const STAGES = [
 export type Stage = (typeof STAGES)[number];
 
 export const STAGE_LABELS: Record<Stage, string> = {
-  applied: "Applied",
-  oa: "Online Assessment (OA)",
-  hr_screen: "HR / Recruiter Screen",
-  technical_interview: "Technical Interview",
+  none: "None",
+  wishlist: "Wishlist",
+  oa: "OA",
+  hr_interview: "HR Interview",
   round_2: "Round 2",
   round_3: "Round 3",
-  onsite: "Onsite / Final Round",
+  round_4: "Round 4",
+  round_5: "Round 5",
+  onsite: "On Site / Final Round",
   offer: "Offer",
 };
 
@@ -62,7 +62,7 @@ export type Application = {
   role: string;
   jobUrl: string | null;
   status: Status;
-  stage: Stage | null;
+  stage: Stage;
   source: Source;
   coverLetter: boolean;
   appliedDate: string | null;

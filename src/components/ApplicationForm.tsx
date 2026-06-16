@@ -40,7 +40,7 @@ export function ApplicationForm({ application }: Props) {
       role: formData.get("role"),
       jobUrl: formData.get("jobUrl"),
       status: formData.get("status"),
-      stage: formData.get("stage") || null,
+      stage: formData.get("stage"),
       source: formData.get("source"),
       coverLetter: formData.get("coverLetter") === "on",
       appliedDate: formData.get("appliedDate"),
@@ -120,7 +120,7 @@ export function ApplicationForm({ application }: Props) {
           <select
             id="status"
             name="status"
-            defaultValue={application?.status ?? "wishlist"}
+            defaultValue={application?.status ?? "none"}
             className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
           >
             {STATUSES.map((status: Status) => (
@@ -169,10 +169,9 @@ export function ApplicationForm({ application }: Props) {
           <select
             id="stage"
             name="stage"
-            defaultValue={application?.stage ?? ""}
+            defaultValue={application?.stage ?? "wishlist"}
             className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
           >
-            <option value="">Not set</option>
             {STAGES.map((stage: Stage) => (
               <option key={stage} value={stage}>
                 {STAGE_LABELS[stage]}
