@@ -17,6 +17,9 @@ export function Nav() {
           <Link href="/stats" className="hover:text-blue-600">
             Stats
           </Link>
+          <Link href="/interviews" className="hover:text-blue-600">
+            Interviews
+          </Link>
           <Link
             href="/applications/new"
             className="rounded-md bg-blue-600 px-3 py-1.5 text-white hover:bg-blue-700"

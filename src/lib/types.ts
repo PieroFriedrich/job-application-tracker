@@ -70,3 +70,32 @@ export type Application = {
   createdAt: string;
   updatedAt: string;
 };
+
+export const INTERVIEW_TYPES = [
+  "phone_screen",
+  "technical",
+  "hr",
+  "onsite",
+  "other",
+] as const;
+
+export type InterviewType = (typeof INTERVIEW_TYPES)[number];
+
+export const INTERVIEW_TYPE_LABELS: Record<InterviewType, string> = {
+  phone_screen: "Phone Screen",
+  technical: "Technical",
+  hr: "HR",
+  onsite: "On Site",
+  other: "Other",
+};
+
+export type Interview = {
+  id: string;
+  applicationId: string;
+  type: InterviewType;
+  scheduledAt: string;
+  notes: string | null;
+  createdAt: string;
+  updatedAt: string;
+  application: { id: string; company: string; role: string };
+};

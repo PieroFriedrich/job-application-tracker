@@ -13,16 +13,28 @@ datasource db {
 }
 
 model Application {
-  id          String    @id @default(cuid())
+  id          String      @id @default(cuid())
   company     String
   role        String
   jobUrl      String?
-  status      String    @default("pending")
-  stage       String    @default("none")
-  source      String    @default("other")
-  coverLetter Boolean   @default(false)
+  status      String      @default("pending")
+  stage       String      @default("none")
+  source      String      @default("other")
+  coverLetter Boolean     @default(false)
   appliedDate DateTime?
   notes       String?
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  interviews  Interview[]
+}
+
+model Interview {
+  id            String      @id @default(cuid())
+  applicationId String
+  application   Application @relation(fields: [applicationId], references: [id], onDelete: Cascade)
+  type          String      @default("other")
+  scheduledAt   DateTime
+  notes         String?
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
 }
