@@ -4,6 +4,7 @@ import { Application } from "@/lib/types";
 
 export default async function BoardPage() {
   const applications = await prisma.application.findMany({
+    where: { status: { not: "inactive" } },
     orderBy: { createdAt: "desc" },
   });
 

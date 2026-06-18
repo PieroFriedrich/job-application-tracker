@@ -57,6 +57,12 @@ function ApplicationCard({ application }: { application: Application }) {
   );
 }
 
+function applicationsForStage(items: Application[], stage: Stage) {
+  return stage === "none"
+    ? items.filter((app) => app.status === "pending")
+    : items.filter((app) => app.status === "active" && app.stage === stage);
+}
+
 function Column({
   stage,
   applications,
@@ -103,18 +109,25 @@ export function Board({ applications }: { applications: Application[] }) {
     if (!over) return;
 
     const newStage = over.id as Stage;
+    const newStatus: Status = newStage === "none" ? "pending" : "active";
     const id = String(active.id);
     const current = items.find((app) => app.id === id);
-    if (!current || current.stage === newStage) return;
+    if (
+      !current ||
+      (current.stage === newStage && current.status === newStatus)
+    )
+      return;
 
     setItems((prev) =>
-      prev.map((app) => (app.id === id ? { ...app, stage: newStage } : app)),
+      prev.map((app) =>
+        app.id === id ? { ...app, stage: newStage, status: newStatus } : app,
+      ),
     );
 
     await fetch(`/api/applications/${id}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ stage: newStage }),
+      body: JSON.stringify({ stage: newStage, status: newStatus }),
     });
   }
 
@@ -131,7 +144,7 @@ export function Board({ applications }: { applications: Application[] }) {
           <Column
             key={stage}
             stage={stage}
-            applications={items.filter((app) => app.stage === stage)}
+            applications={applicationsForStage(items, stage)}
           />
         ))}
       </div>
