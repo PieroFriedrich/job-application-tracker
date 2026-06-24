@@ -33,14 +33,14 @@ function ApplicationCard({ application }: { application: Application }) {
       style={style}
       {...attributes}
       {...listeners}
-      className={`cursor-grab rounded-md border border-gray-200 bg-white p-3 shadow-sm active:cursor-grabbing ${
+      className={`cursor-grab rounded-md border border-gray-200 bg-white p-3 shadow-sm active:cursor-grabbing dark:border-gray-700 dark:bg-gray-900 ${
         isDragging ? "opacity-50" : ""
       }`}
     >
       <p className="font-medium">{application.company}</p>
-      <p className="text-sm text-gray-600">{application.role}</p>
+      <p className="text-sm text-gray-600 dark:text-gray-400">{application.role}</p>
       {application.appliedDate && (
-        <p className="mt-1 text-xs text-gray-400">
+        <p className="mt-1 text-xs text-gray-400 dark:text-gray-500">
           Applied {new Date(application.appliedDate).toLocaleDateString()}
         </p>
       )}
@@ -48,7 +48,7 @@ function ApplicationCard({ application }: { application: Application }) {
         <StatusBadge status={application.status as Status} />
         <Link
           href={`/applications/${application.id}/edit`}
-          className="text-xs font-medium text-blue-600 hover:underline"
+          className="text-xs font-medium text-blue-600 hover:underline dark:text-blue-400"
         >
           Edit
         </Link>
@@ -75,13 +75,13 @@ function Column({
   return (
     <div
       ref={setNodeRef}
-      className={`flex min-h-[200px] w-64 flex-shrink-0 flex-col gap-2 rounded-md border border-gray-200 p-2 ${
-        isOver ? "bg-blue-50" : "bg-gray-100"
+      className={`flex min-h-[200px] w-64 flex-shrink-0 flex-col gap-2 rounded-md border border-gray-200 p-2 dark:border-gray-700 ${
+        isOver ? "bg-blue-50 dark:bg-blue-950/40" : "bg-gray-100 dark:bg-gray-800"
       }`}
     >
       <div className="flex items-center justify-between px-1">
         <StageBadge stage={stage} />
-        <span className="text-xs text-gray-400">{applications.length}</span>
+        <span className="text-xs text-gray-400 dark:text-gray-500">{applications.length}</span>
       </div>
       {applications.map((app) => (
         <ApplicationCard key={app.id} application={app} />
@@ -150,9 +150,9 @@ export function Board({ applications }: { applications: Application[] }) {
       </div>
       <DragOverlay>
         {activeApplication ? (
-          <div className="w-64 rounded-md border border-gray-200 bg-white p-3 shadow-lg">
+          <div className="w-64 rounded-md border border-gray-200 bg-white p-3 shadow-lg dark:border-gray-700 dark:bg-gray-900">
             <p className="font-medium">{activeApplication.company}</p>
-            <p className="text-sm text-gray-600">{activeApplication.role}</p>
+            <p className="text-sm text-gray-600 dark:text-gray-400">{activeApplication.role}</p>
           </div>
         ) : null}
       </DragOverlay>

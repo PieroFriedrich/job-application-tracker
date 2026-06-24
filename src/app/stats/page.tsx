@@ -75,7 +75,7 @@ export default async function StatsPage({
           <select
             name="year"
             defaultValue={isValidYear ? year : ""}
-            className="rounded-md border border-gray-300 px-2 py-1"
+            className="rounded-md border border-gray-300 bg-white px-2 py-1 dark:border-gray-600 dark:bg-gray-900"
           >
             <option value="">All</option>
             {years.map((y) => (
@@ -88,7 +88,7 @@ export default async function StatsPage({
 
         <button
           type="submit"
-          className="rounded-md border border-gray-300 px-3 py-1 font-medium hover:bg-gray-50"
+          className="rounded-md border border-gray-300 px-3 py-1 font-medium hover:bg-gray-50 dark:border-gray-600 dark:hover:bg-gray-800"
         >
           Apply
         </button>
@@ -98,16 +98,16 @@ export default async function StatsPage({
         {statusTotals.map(({ status, count }) => (
           <div
             key={status}
-            className="rounded-md border border-gray-200 bg-white p-4 text-center"
+            className="rounded-md border border-gray-200 bg-white p-4 text-center dark:border-gray-700 dark:bg-gray-900"
           >
             <p className="text-2xl font-semibold">{count}</p>
-            <p className="text-sm text-gray-500">{STATUS_LABELS[status]}</p>
+            <p className="text-sm text-gray-500 dark:text-gray-400">{STATUS_LABELS[status]}</p>
           </div>
         ))}
       </div>
 
       {months.length === 0 ? (
-        <p className="rounded-md border border-dashed border-gray-300 p-8 text-center text-sm text-gray-500">
+        <p className="rounded-md border border-dashed border-gray-300 p-8 text-center text-sm text-gray-500 dark:border-gray-600 dark:text-gray-400">
           No applications with an applied date yet.
         </p>
       ) : (

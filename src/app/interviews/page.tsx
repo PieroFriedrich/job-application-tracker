@@ -29,7 +29,7 @@ export default async function InterviewsPage() {
         <h1 className="text-2xl font-semibold">Interviews</h1>
         <Link
           href="/interviews/new"
-          className="rounded-md bg-blue-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-blue-700"
+          className="rounded-md bg-blue-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600"
         >
           + Schedule interview
         </Link>

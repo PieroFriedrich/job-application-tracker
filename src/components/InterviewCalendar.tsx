@@ -95,18 +95,18 @@ export function InterviewCalendar({
 
   return (
     <div className="space-y-6">
-      <div className="rounded-lg border border-gray-200 p-4 max-w-sm">
+      <div className="rounded-lg border border-gray-200 p-4 max-w-sm dark:border-gray-700">
         <div className="mb-3 flex items-center justify-between">
           <button
             onClick={prevMonth}
-            className="rounded px-2 py-1 text-sm hover:bg-gray-100"
+            className="rounded px-2 py-1 text-sm hover:bg-gray-100 dark:hover:bg-gray-800"
           >
             ‹
           </button>
           <span className="text-sm font-semibold">{monthLabel}</span>
           <button
             onClick={nextMonth}
-            className="rounded px-2 py-1 text-sm hover:bg-gray-100"
+            className="rounded px-2 py-1 text-sm hover:bg-gray-100 dark:hover:bg-gray-800"
           >
             ›
           </button>
@@ -116,7 +116,7 @@ export function InterviewCalendar({
           {DAY_HEADERS.map((d) => (
             <div
               key={d}
-              className="text-center text-xs font-medium text-gray-500 pb-1"
+              className="text-center text-xs font-medium text-gray-500 pb-1 dark:text-gray-400"
             >
               {d}
             </div>
@@ -139,14 +139,16 @@ export function InterviewCalendar({
                 onClick={() => handleDayClick(key)}
                 className={[
                   "flex flex-col items-center rounded-md py-1 text-sm transition-colors",
-                  isPast && !isToday ? "text-gray-400" : "",
-                  isToday ? "ring-2 ring-blue-500" : "",
-                  isSelected ? "bg-blue-100 font-semibold" : "hover:bg-gray-100",
+                  isPast && !isToday ? "text-gray-400 dark:text-gray-500" : "",
+                  isToday ? "ring-2 ring-blue-500 dark:ring-blue-400" : "",
+                  isSelected
+                    ? "bg-blue-100 font-semibold dark:bg-blue-900/40"
+                    : "hover:bg-gray-100 dark:hover:bg-gray-800",
                 ].join(" ")}
               >
                 {d}
                 {hasInterviews ? (
-                  <span className="mt-0.5 h-1.5 w-1.5 rounded-full bg-blue-500" />
+                  <span className="mt-0.5 h-1.5 w-1.5 rounded-full bg-blue-500 dark:bg-blue-400" />
                 ) : (
                   <span className="mt-0.5 h-1.5 w-1.5" />
                 )}
@@ -160,7 +162,7 @@ export function InterviewCalendar({
         <h2 className="mb-3 text-base font-semibold">{listHeader}</h2>
 
         {visibleInterviews.length === 0 ? (
-          <p className="text-sm text-gray-500">No interviews to show.</p>
+          <p className="text-sm text-gray-500 dark:text-gray-400">No interviews to show.</p>
         ) : (
           <ul className="space-y-3">
             {visibleInterviews.map((iv) => {
@@ -177,27 +179,27 @@ export function InterviewCalendar({
               return (
                 <li
                   key={iv.id}
-                  className="flex items-start justify-between gap-4 rounded-lg border border-gray-200 p-4"
+                  className="flex items-start justify-between gap-4 rounded-lg border border-gray-200 p-4 dark:border-gray-700"
                 >
                   <div className="space-y-1">
                     <div className="flex items-center gap-2">
                       <span className="text-sm font-medium">
                         {iv.application.company}
                       </span>
-                      <span className="text-xs text-gray-500">
+                      <span className="text-xs text-gray-500 dark:text-gray-400">
                         {iv.application.role}
                       </span>
                     </div>
-                    <div className="flex items-center gap-2 text-sm text-gray-600">
+                    <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
                       <span>
                         {date} at {time}
                       </span>
-                      <span className="rounded-full bg-blue-100 px-2 py-0.5 text-xs font-medium text-blue-700">
+                      <span className="rounded-full bg-blue-100 px-2 py-0.5 text-xs font-medium text-blue-700 dark:bg-blue-900/30 dark:text-blue-400">
                         {INTERVIEW_TYPE_LABELS[iv.type as InterviewType] ?? iv.type}
                       </span>
                     </div>
                     {iv.notes && (
-                      <p className="text-xs text-gray-500 line-clamp-2">
+                      <p className="text-xs text-gray-500 line-clamp-2 dark:text-gray-400">
                         {iv.notes}
                       </p>
                     )}
@@ -205,14 +207,14 @@ export function InterviewCalendar({
                   <div className="flex shrink-0 gap-2">
                     <Link
                       href={`/interviews/${iv.id}/edit`}
-                      className="text-xs text-blue-600 hover:underline"
+                      className="text-xs text-blue-600 hover:underline dark:text-blue-400"
                     >
                       Edit
                     </Link>
                     <button
                       onClick={() => handleDelete(iv.id)}
                       disabled={deleting === iv.id}
-                      className="text-xs text-red-600 hover:underline disabled:opacity-50"
+                      className="text-xs text-red-600 hover:underline disabled:opacity-50 dark:text-red-400"
                     >
                       {deleting === iv.id ? "Deleting…" : "Delete"}
                     </button>

@@ -55,7 +55,7 @@ export default async function HomePage({
     <div>
       <div className="mb-6 flex items-center justify-between">
         <h1 className="text-2xl font-semibold">Applications</h1>
-        <p className="text-sm text-gray-500">
+        <p className="text-sm text-gray-500 dark:text-gray-400">
           {applications.length} application{applications.length === 1 ? "" : "s"}
         </p>
       </div>
@@ -66,7 +66,7 @@ export default async function HomePage({
           <select
             name="status"
             defaultValue={status ?? ""}
-            className="rounded-md border border-gray-300 px-2 py-1"
+            className="rounded-md border border-gray-300 bg-white px-2 py-1 dark:border-gray-600 dark:bg-gray-900"
           >
             <option value="">All</option>
             {STATUSES.map((s: Status) => (
@@ -82,7 +82,7 @@ export default async function HomePage({
           <select
             name="year"
             defaultValue={isValidYear ? year : ""}
-            className="rounded-md border border-gray-300 px-2 py-1"
+            className="rounded-md border border-gray-300 bg-white px-2 py-1 dark:border-gray-600 dark:bg-gray-900"
           >
             <option value="">All</option>
             {years.map((y) => (
@@ -98,7 +98,7 @@ export default async function HomePage({
           <select
             name="sort"
             defaultValue={sortKey}
-            className="rounded-md border border-gray-300 px-2 py-1"
+            className="rounded-md border border-gray-300 bg-white px-2 py-1 dark:border-gray-600 dark:bg-gray-900"
           >
             {Object.entries(SORT_OPTIONS).map(([key, { label }]) => (
               <option key={key} value={key}>
@@ -110,24 +110,24 @@ export default async function HomePage({
 
         <button
           type="submit"
-          className="rounded-md border border-gray-300 px-3 py-1 font-medium hover:bg-gray-50"
+          className="rounded-md border border-gray-300 px-3 py-1 font-medium hover:bg-gray-50 dark:border-gray-600 dark:hover:bg-gray-800"
         >
           Apply
         </button>
       </form>
 
       {applications.length === 0 ? (
-        <p className="rounded-md border border-dashed border-gray-300 p-8 text-center text-sm text-gray-500">
+        <p className="rounded-md border border-dashed border-gray-300 p-8 text-center text-sm text-gray-500 dark:border-gray-600 dark:text-gray-400">
           No applications yet.{" "}
-          <Link href="/applications/new" className="text-blue-600 hover:underline">
+          <Link href="/applications/new" className="text-blue-600 hover:underline dark:text-blue-400">
             Add your first one
           </Link>
           .
         </p>
       ) : (
-        <div className="overflow-x-auto rounded-md border border-gray-200 bg-white">
-          <table className="min-w-full divide-y divide-gray-200 text-sm">
-            <thead className="bg-gray-50">
+        <div className="overflow-x-auto rounded-md border border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-900">
+          <table className="min-w-full divide-y divide-gray-200 text-sm dark:divide-gray-700">
+            <thead className="bg-gray-50 dark:bg-gray-800">
               <tr>
                 <th className="px-4 py-2 text-left font-medium">Company</th>
                 <th className="px-4 py-2 text-left font-medium">Role</th>
@@ -137,7 +137,7 @@ export default async function HomePage({
                 <th className="px-4 py-2 text-right font-medium">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-100">
+            <tbody className="divide-y divide-gray-100 dark:divide-gray-800">
               {applications.map((app) => (
                 <tr key={app.id}>
                   <td className="px-4 py-2 font-medium">
@@ -146,7 +146,7 @@ export default async function HomePage({
                         href={app.jobUrl}
                         target="_blank"
                         rel="noreferrer"
-                        className="hover:text-blue-600 hover:underline"
+                        className="hover:text-blue-600 hover:underline dark:hover:text-blue-400"
                       >
                         {app.company}
                       </a>
@@ -161,7 +161,7 @@ export default async function HomePage({
                   <td className="px-4 py-2">
                     <StatusBadge status={app.status as Status} />
                   </td>
-                  <td className="px-4 py-2 text-gray-500">
+                  <td className="px-4 py-2 text-gray-500 dark:text-gray-400">
                     {app.appliedDate
                       ? new Date(app.appliedDate).toLocaleDateString()
                       : "—"}
@@ -170,7 +170,7 @@ export default async function HomePage({
                     <div className="flex justify-end gap-3">
                       <Link
                         href={`/applications/${app.id}/edit`}
-                        className="text-sm font-medium text-gray-600 hover:text-blue-600"
+                        className="text-sm font-medium text-gray-600 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400"
                       >
                         Edit
                       </Link>
